@@ -2,7 +2,7 @@
 
 ## Description
 
-plinkPy takes .ped and .map files exported from Plink as input. After parsing of both files into a single object, 
+plinkPy takes .ped and .map files exported from Plink as input. After parsing of both files into a single object in an OOP-manner, 
 it allows to extract part of the data and export it back into .ped and .map files as well as csv, genepop and structure formats.
 
 ## Getting started
@@ -57,10 +57,7 @@ The `format` can be:
 - 'structure'
 
 Export to csv, genepop and structure changes the original order of markers into an alphabetic one.
-
 Export to genepop and structure adds an empty blank line at the end of the file.
-
 Export to genepop misses a blank space after the comma at individual lines.
-
 Export to structure codes missing value as `9`.
 
