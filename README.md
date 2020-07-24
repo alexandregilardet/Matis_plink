@@ -39,11 +39,11 @@ plink_1.markers
 ### Filter
 By a list of individuals `target_1`:
 ```
-individuals_of_interest = get_individuals(genotypes, target_1)
+individuals_of_interest = get_individuals(target_1, genotypes)
 ```
 By a list of markers `target_2`:
 ```
-markers_of_interest = get_markers(genotypes, target_2)
+markers_of_interest = get_markers(target_2, genotypes)
 ```
 
 ### Export:
