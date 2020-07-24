@@ -57,7 +57,10 @@ The `format` can be:
 - 'structure'
 
 Export to csv, genepop and structure changes the original order of markers into an alphabetic one.
+
 Export to genepop and structure adds an empty blank line at the end of the file.
+
 Export to genepop misses a blank space after the comma at individual lines.
+
 Export to structure codes missing value as `9`.
 
