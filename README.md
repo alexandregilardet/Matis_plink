@@ -7,7 +7,7 @@ it allows to extract part of the data and export it back into .ped and .map file
 
 ## Getting started
 
-When the plinkPy.py file is in the working directory with an empty __ini__.py file:
+When the `plinkPy.py` file is in the working directory with an empty `__init__.py` file:
 ```
 from plinkPy import *
 ```
