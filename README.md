@@ -12,7 +12,7 @@ When the plinkPy.py file is in the working directory with an empty __ini__.py fi
 from plinkPy import *
 ```
 ### Input
-The .ped .map input should display alleles as A and B with 0 as the missing value.
+The .ped .map input should display A/B alleles with 0 as the missing value.
 
 ## Usage
 
