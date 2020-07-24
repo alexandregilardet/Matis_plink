@@ -46,15 +46,15 @@ By a list of markers `target_2`:
 markers_of_interest = get_markers(target_2, genotypes)
 ```
 
-### Export:
+### Export
 ```
-export(genotypes, format, 'genotypes_export')
+export(individuals_of_interest, format, 'filtered_genotypes_export')
 ```
 The `format` can be:
--'ped_map'
--'csv'
--'genepop'
--'structure'
+- 'ped_map'
+- 'csv'
+- 'genepop'
+- 'structure'
 
 Exports to csv, genepop, structure changes the original order of markers into an alphabetic ranking.
 
