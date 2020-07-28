@@ -89,7 +89,7 @@ def check_target(target):
     return None
 
 
-def get_individuals(target, parsed_ped_map):
+def filter_individuals(parsed_ped_map, target):
     """extracts a subset of individuals and returns an object similar to parsed_ped_map"""
     try:
         check_target(target)
@@ -110,7 +110,7 @@ def get_individuals(target, parsed_ped_map):
     return new_ind[:]
 
 
-def get_markers(target, parsed_ped_map):
+def filter_markers(parsed_ped_map, target):
     """extracts a subset of markers and returns an object similar to parsed_ped_map"""
     try:
         check_target(target)
@@ -358,44 +358,10 @@ def export_to_structure(parsed_ped_map, name):
     return None
 
 
-def export(obj, format, name):
-    """general function to call the right export function according to the format specified"""
-    try:
-        assert isinstance(name, str)
-        if format == "ped_map":
-            export_to_ped_map(obj, name)
-        elif format == "csv":
-            export_to_csv(obj, name)
-        elif format == "genepop":
-            export_to_genepop(obj, name)
-        elif format == "structure":
-            export_to_structure(obj, name)
-        else:
-            sys.exit(f"Called an unsupported export format: {format}")
-    except AssertionError:
-        sys.exit("File name should be a string")
-    except TypeError:
-        sys.exit("Tried to export unsupported object")
-    return None
-
-
 class plinkPy:
     """Class whose instance contains related .ped and .map files exported from Plink"""
 
-    def __init__(self, ped, map, parsed=None):  # self instance #file attribute
-        self.ped = ped
-        self.map = map
-        self.parsed = parsed
-        # parsed will be the fused parsed_ped_map object
-        return None
-
-    def __str__(self):  # for end-user #str() or print()
-        return f".ped file {self.ped} - .map file {self.map}"
-
-    def __repr__(self):  # for other developer #repr()
-        return f".ped file {self.ped} - .map file {self.map}"
-
-    def read(self):
+    def __read(self):
         """main function to read and parse .ped and .map files"""
         try:
             ped_lines = reader(self.ped)
@@ -410,15 +376,23 @@ class plinkPy:
             )
         return parsed_ped_map[:]
 
+    def __init__(self, ped, map):  # self instance #file attribute
+        self.ped = ped
+        self.map = map
+        self.__parsed = plinkPy.__read(self)
+        # parsed will be the fused parsed_ped_map object
+        return None
+
+    def __repr__(self):
+        return f".ped file {self.ped} - .map file {self.map}"
+
     @property  # method accessed as attribute
     def individuals(self):
         """prints all individuals and their number"""
         count = 0
-        ped_lines = reader(self.ped)
-        parsed_ped = from_ped(ped_lines)
-        for line in parsed_ped:
+        for ind in self.__parsed:
             count += 1
-            print(line["individual_ID"])
+            print(ind["individual_ID"])
         print(f"There are {count} individuals")
         return None
 
@@ -426,11 +400,40 @@ class plinkPy:
     def markers(self):
         """prints all markers and their number"""
         count = 0
-        map_lines = reader(self.map)
-        parsed_map = from_map(map_lines)
-        for line in parsed_map:
+        for marker in self.__parsed[0]["loci"]:
             count += 1
-            print(line["variant_ID"])
+            print(marker["variant_ID"])
         print(f"There are {count} markers")
         return None
 
+    def get_individuals(self, target):
+        """filters individuals on a copy of the original instance and returns a new filtered instance"""
+        self = deepcopy(self)
+        self.__parsed = filter_individuals(self.__parsed, target)
+        return self
+
+    def get_markers(self, target):
+        """filters markers on a copy of the original instance and returns a new filtered instance"""
+        self = deepcopy(self)
+        self.__parsed = filter_markers(self.__parsed, target)
+        return self
+
+    def export(self, format, name):
+        """general function to call the right export function according to the format specified"""
+        try:
+            assert isinstance(name, str)
+            if format == "ped_map":
+                export_to_ped_map(self.__parsed, name)
+            elif format == "csv":
+                export_to_csv(self.__parsed, name)
+            elif format == "genepop":
+                export_to_genepop(self.__parsed, name)
+            elif format == "structure":
+                export_to_structure(self.__parsed, name)
+            else:
+                sys.exit(f"Called an unsupported export format: {format}")
+        except AssertionError:
+            sys.exit("File name should be a string")
+        except TypeError:
+            sys.exit("Tried to export unsupported object")
+        return None
