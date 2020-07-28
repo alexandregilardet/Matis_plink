@@ -16,14 +16,9 @@ The .ped .map input should display A/B alleles with 0 as the missing value.
 
 ## Usage
 
-### Create the plinkPy instance
+### Create the plinkPy instance and parse the files
 ```
 plink_1 = plinkPy('plink_export.ped', 'plink_export.map')
-```
-
-### Read and parse the files
-```
-genotypes = plinkPy.read(plink_1)
 ```
 
 ### Access properties
@@ -39,16 +34,16 @@ plink_1.markers
 ### Filter
 By a list of individuals `target_1`:
 ```
-individuals_of_interest = get_individuals(target_1, genotypes)
+individuals_of_interest = plink_1.get_individuals(target_1)
 ```
 By a list of markers `target_2`:
 ```
-markers_of_interest = get_markers(target_2, genotypes)
+markers_of_interest = plink_1.get_markers(target_2)
 ```
 
 ### Export
 ```
-export(individuals_of_interest, format, 'filtered_genotypes_export')
+individuals_of_interest.export(format, 'filtered_genotypes_export')
 ```
 The `format` can be:
 - 'ped_map'
