@@ -22,11 +22,11 @@ plink_1 = plinkPy('plink_export.ped', 'plink_export.map')
 ```
 
 ### Access properties
-Get the individuals from .ped file as well as their number:
+Get the individuals as well as their number:
 ```
 plink_1.individuals
 ```
-Get the markers from .map file as well as their number:
+Get the markers as well as their number:
 ```
 plink_1.markers
 ```
@@ -43,7 +43,7 @@ markers_of_interest = plink_1.get_markers(target_2)
 
 ### Export
 ```
-individuals_of_interest.export(format, 'filtered_genotypes_export')
+individuals_of_interest.export(format, 'filtered_export')
 ```
 The `format` can be:
 - 'ped_map'
